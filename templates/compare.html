@@ -1,0 +1,37 @@
+{% with title='Compare | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<section class="main">
+	<div class="main-top">
+		<h1>Compare</h1>
+		<i class="fas fa-user-cog"></i>
+	</div>
+
+	<center class="nodatacnt">
+		{% if tasks|length == 0 %}
+		<h1>No Habit</h1>
+		{% endif %}
+	</center>
+
+	<section class="main-course">
+		<div class="main-skills">
+			{% block content %} {% for task in tasks %}
+			<div class="card">
+				<i class="fas fa-tasks"></i>
+				<h3>{{task['title']}}</h3>
+				<p>{{task['completed_days']}}/{{task['duration']}} Days completed</p>
+				<button
+					class="button"
+					onclick="window.location.href
+				=`/compare/{{task['id']}}`"
+					style="background-color: green"
+				>
+					View Details
+				</button>
+			</div>
+			{% endfor %} {% endblock %}
+		</div>
+	</section>
+</section>
+
+{% include 'footer.html' %}

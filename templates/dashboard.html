@@ -1,0 +1,130 @@
+{% with title='Dashboard | Habit Tracker' %} {% include "header.html" %} {%
+endwith %}
+
+<section class="main">
+	<div class="main-top">
+		<h1>Dashboard</h1>
+		<i class="fas fa-user-cog"></i>
+	</div>
+	<div class="main-skills">
+		<div class="card">
+			<i class="fas fa-tasks"></i>
+			<h3>Total Habits: {{habits|length}}</h3>
+			<p></p>
+			<a href="/tasks" class="btn btn-danger" style="width: 100%"
+				>Go To Habits</a
+			>
+		</div>
+		<div class="card">
+			<i class="fas fa-spinner"></i>
+			<h3>Track Progress</h3>
+			<p></p>
+			<a href="/progress" class="btn btn-danger" style="width: 100%"
+				>Go To Progress</a
+			>
+		</div>
+
+		<div class="card">
+			<i class="fas fa-question-circle"></i>
+			<h3>Compare Progress</h3>
+			<p></p>
+			<a href="/compare" class="btn btn-danger" style="width: 100%"
+				>Go To Compare</a
+			>
+		</div>
+	</div>
+
+	<section class="main-course">
+		<h1>progress</h1>
+		<div class="course-box" style="height: fit-content; width: 40vw">
+			<!-- <ul>
+				<li class="active">In progress</li>
+				<li>explore</li>
+				<li>incoming</li>
+				<li>finished</li>
+			</ul>
+			<div class="course">
+				<div class="box">
+					<h3>HTML</h3>
+					<p>80% - progress</p>
+					<button>continue</button>
+					<i class="fab fa-html5 html"></i>
+				</div>
+				<div class="box">
+					<h3>CSS</h3>
+					<p>50% - progress</p>
+					<button>continue</button>
+					<i class="fab fa-css3-alt css"></i>
+				</div>
+				<div class="box">
+					<h3>JavaScript</h3>
+					<p>30% - progress</p>
+					<button>continue</button>
+					<i class="fab fa-js-square js"></i>
+				</div>
+			</div> -->
+			<canvas id="myChart" style="width: 100%; max-width: 40vw"></canvas>
+		</div>
+	</section>
+</section>
+
+<script>
+	var xValues = {{ titles | tojson }};
+	var yValues = {{ percentages | tojson }};
+	var backgroundColor = {{ backgrounds | tojson }};
+</script>
+
+<script>
+	window.onload = function (params) {
+		var barColors = ["red", "green", "blue", "orange", "brown"];
+
+		new Chart("myChart", {
+			type: "bar",
+			data: {
+				labels: xValues,
+				datasets: [
+					{
+						data: yValues,
+						backgroundColor,
+					},
+				],
+			},
+			options: {
+				legend: { display: false },
+				title: {
+					display: true,
+					text: "Overall Progress",
+				},
+				scales: {
+					yAxes: [
+						{
+							display: true,
+							ticks: {
+								beginAtZero: true,
+								steps: 10,
+								stepValue: 5,
+								max: 100,
+							},
+							scaleLabel: {
+								display: true,
+								labelString: "Percentage",
+							},
+						},
+					],
+					xAxes: [
+						{
+							display: true,
+
+							scaleLabel: {
+								display: true,
+								labelString: "Habits",
+							},
+						},
+					],
+				},
+			},
+		});
+	};
+</script>
+
+{% include 'footer.html' %}
